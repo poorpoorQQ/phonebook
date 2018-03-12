@@ -18,6 +18,12 @@ entry *findName(char lastName[], entry *pHead)
 
 entry *append(char lastName[], entry *e)
 {
+    /*if (pHead == NULL) {
+        pHead = (entry *) malloc(sizeof(entry));
+    printf("size of entry : %lu bytes\n", sizeof(entry));
+    e = pHead;
+    }*/
+
     /* allocate memory for the new entry and put lastName */
     e->pNext = (entry *) malloc(sizeof(entry));
     e = e->pNext;

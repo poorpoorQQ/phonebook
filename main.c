@@ -42,13 +42,16 @@ int main(int argc, char *argv[])
         printf("cannot open the file\n");
         return -1;
     }
-
+#ifdef OPT
+    entry *pHead = NULL, *e = NULL;
+#else
     /* build the entry */
     entry *pHead, *e;
     pHead = (entry *) malloc(sizeof(entry));
     printf("size of entry : %lu bytes\n", sizeof(entry));
     e = pHead;
     e->pNext = NULL;
+#endif
 
 #if defined(__GNUC__)
     __builtin___clear_cache((char *) pHead, (char *) pHead + sizeof(entry));
@@ -59,19 +62,27 @@ int main(int argc, char *argv[])
             i++;
         line[i - 1] = '\0';
         i = 0;
+#ifdef OPT
+        insert(&pHead, line);
+        //printf("InOne:%s\n", line);
+#else
         e = append(line, e);
+#endif
     }
     clock_gettime(CLOCK_REALTIME, &end);
     cpu_time1 = diff_in_second(start, end);
 
     /* close file as soon as possible */
     fclose(fp);
-
+//printf("InDone\n");
     e = pHead;
 
     /* the givn last name to find */
     char input[MAX_LAST_NAME_SIZE] = "zyxel";
     e = pHead;
+
+//printf("pHead:%p\n", pHead);
+//printf("e:%p\n", e);
 
     assert(findName(input, e) &&
            "Did you implement findName() in " IMPL "?");
@@ -92,9 +103,11 @@ int main(int argc, char *argv[])
 
     printf("execution time of append() : %lf sec\n", cpu_time1);
     printf("execution time of findName() : %lf sec\n", cpu_time2);
+#ifdef OPT
 
+#else
     if (pHead->pNext) free(pHead->pNext);
     free(pHead);
-
+#endif
     return 0;
 }
