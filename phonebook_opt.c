@@ -8,7 +8,6 @@
 /* TODO: FILL YOUR OWN IMPLEMENTATION HERE! */
 entry *new_node(char lastName[])
 {
-    //printf("New\n");
     entry *node = calloc(1, sizeof *node);
     strcpy(node->lastName, lastName);
     node->height = 1;
@@ -24,15 +23,12 @@ int max(int a, int b)
 
 void set_height(entry *n)
 {
-    //printf("set H\n");
     int a, b;
     /*if ((a = 0) && n->pNext[0] != NULL) {
         a = n->pNext[0]->height;
-    printf("set a:%d\n", a);
     }
     if ((b = 0) && n->pNext[1] != NULL) {
-    b = n->pNext[1]->height;
-    printf("set b:%d\n", b);
+        b = n->pNext[1]->height;
     }*/
 
     if (n->pNext[0] == NULL)
@@ -45,18 +41,11 @@ void set_height(entry *n)
     else
         b = n->pNext[1]->height;
 
-    //printf("set a:%d\n", a);
-    //printf("set b:%d\n", b);
     n->height = 1 + max(a, b);
-    //printf("set H:%d\n", n->height);
 }
 
 int bal_factor(entry *n)
 {
-    //printf("BF\n");
-//printf("BF_0:%p\n", n->pNext[0]);
-//printf("BF_1:%p\n", n->pNext[1]);
-
     if (n->pNext[0] == NULL)
         return -(n->pNext[1]->height);
     else if (n->pNext[1] == NULL)
@@ -67,7 +56,6 @@ int bal_factor(entry *n)
 
 entry *rotate(entry **rootp, int dir)
 {
-    //printf("R\n");
     entry *old_rt = *rootp, *new_rt = old_rt->pNext[dir];
 
     if ( (*rootp = new_rt) == NULL )
@@ -82,36 +70,22 @@ entry *rotate(entry **rootp, int dir)
 
 void adjust_balance(entry **rootp)
 {
-    //printf("AD\n");
     entry *root = *rootp;
-//printf("next0:%p\n", root->pNext[0]);
-//printf("next1:%p\n", root->pNext[1]);
     int b = bal_factor(root)/2;
 
-//printf("AD1_bf:%d\n", b);
-
     if (b) {
-
-//printf("AD2\n");
-
         int dir = (1 - b)/2;
-//printf("AD2_dir:%d\n", dir);
         if (bal_factor(root->pNext[dir]) == -b) {
-            //printf("AD3\n");
             rotate(&root->pNext[dir], !dir);
-            //printf("AD4\n");
         }
-        //printf("AD5\n");
         root = rotate(rootp, dir);
-        //printf("AD6\n");
     }
     if (root != NULL) set_height(root);
-//printf("AD_end\n");
 }
 
 void insert(entry **rootp, char lastName[])
 {
-    //printf("insert\n");
+
     entry *root = *rootp;
 
     if (root == NULL)
@@ -135,7 +109,6 @@ entry *findName(char lastName[], entry *pHead)
     int cmpResult;
 
     while (current != NULL && (cmpResult = strcasecmp(lastName, current->lastName)) != 0) {
-        //printf("Current:%p\n", current);
         if (cmpResult < 0)
             current = current->pNext[0];
         else
@@ -143,7 +116,6 @@ entry *findName(char lastName[], entry *pHead)
     }
 
     if (cmpResult == 0) {
-        //printf("CMP:%d", cmpResult);
         return current;
     } else
         return NULL;

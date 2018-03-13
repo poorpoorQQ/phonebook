@@ -64,7 +64,6 @@ int main(int argc, char *argv[])
         i = 0;
 #ifdef OPT
         insert(&pHead, line);
-        //printf("InOne:%s\n", line);
 #else
         e = append(line, e);
 #endif
@@ -74,15 +73,14 @@ int main(int argc, char *argv[])
 
     /* close file as soon as possible */
     fclose(fp);
-//printf("InDone\n");
     e = pHead;
 
     /* the givn last name to find */
     char input[MAX_LAST_NAME_SIZE] = "zyxel";
     e = pHead;
 
-//printf("pHead:%p\n", pHead);
-//printf("e:%p\n", e);
+
+
 
     assert(findName(input, e) &&
            "Did you implement findName() in " IMPL "?");
